@@ -133,6 +133,7 @@ const createFineDetail = async (fineDetail) => {
 
 const updateFineDetail = async (idMultaDetalle, fineDetail) => {
   try {
+    console.log(fineDetail);
     const updatedFineDetail = await dbConnection.query(
       `
       UPDATE JA_MultaDetalle 
@@ -143,7 +144,7 @@ const updateFineDetail = async (idMultaDetalle, fineDetail) => {
         replacements: {
           id_cliente: fineDetail.id_cliente,
           id_multa: fineDetail.id_multa,
-          valor_pagar: fineDetail.valor_pagar,
+          valor_pagar: fineDetail.cost,
           date_fine: fineDetail.date_fine,
           descripcion: fineDetail.descripcion,
           idMultaDetalle,
@@ -151,6 +152,8 @@ const updateFineDetail = async (idMultaDetalle, fineDetail) => {
         type: sequelize.QueryTypes.UPDATE,
       }
     );
+
+    
 
     consoleHelper.success("Detalle de multa actualizada correctamente");
     return updatedFineDetail;
