@@ -103,6 +103,7 @@ const deleteFine = async (idMulta) => {
 */
 const createFineDetail = async (fineDetail) => {
   try {
+    console.log(fineDetail);
     const clients = fineDetail.clients;
     const fileDetalle = fineDetail.fineDetalle;
     for (let i = 0; i < clients.length; i++) {
@@ -113,7 +114,7 @@ const createFineDetail = async (fineDetail) => {
           replacements: {
             id_cliente: client.idCliente,
             id_multa: fileDetalle.id_multa,
-            valor_pagar: fileDetalle.valor_pagar,
+            valor_pagar: fileDetalle.cost,
             date_fine: fileDetalle.date_fine,
             descripcion: fileDetalle.descripcion,
             tipo_multa: fileDetalle.tipo_multa,
@@ -153,7 +154,7 @@ const updateFineDetail = async (idMultaDetalle, fineDetail) => {
       }
     );
 
-    
+
 
     consoleHelper.success("Detalle de multa actualizada correctamente");
     return updatedFineDetail;
