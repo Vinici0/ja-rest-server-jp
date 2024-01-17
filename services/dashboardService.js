@@ -244,9 +244,6 @@ const listTipoCliente = async () => {
     }
 }
 
-
-
-// Medidores
 const listEstado = async () => {
     try {
         const estado = await dbConnection.query(
