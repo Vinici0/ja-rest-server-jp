@@ -888,6 +888,132 @@ const getMeasureTotalFineByManzanaLote = async () => {
   }
 }
 
+const deleteMeasureAndCodigoAndManzanaAndLote = async (measure) => {
+  try {
+    console.log(measure);
+
+    // //primero traer todas las medidas que tengan el mismo codigo y manzana y lote y lo inserte en la tabla JA_Medida_Delete_Respaldo
+    const getMedidas = await dbConnection.query(
+      `SELECT * FROM JA_Medida WHERE codigo = :codigo AND manzana = :manzana AND lote = :lote`,
+      {
+        replacements: {
+          codigo: measure.Codigo,
+          manzana: measure.Manzana,
+          lote: measure.Lote,
+        },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+       
+
+    for (const medida of getMedidas) {
+      const {
+        idMedida,
+        Anio,
+        Mes,
+        idCliente,
+        LecturaAnterior,
+        LecturaActual,
+        Consumo,
+        Excedente,
+        Basico,
+        ExcedenteV,
+        Total,
+        Acumulado,
+        Pago,
+        Saldo,
+        Cancelada,
+        Usurario,
+        Estacion,
+        Nombre,
+        Codigo,
+        Lote,
+        Manzana,
+        Planilla,
+        Alcantarillado,
+      } = medida;
+
+      console.log(medida);
+
+      await dbConnection.query(
+        `INSERT INTO JA_Medida_Delete_Respaldo (idMedida,Anio, Mes, idCliente, LecturaAnterior, LecturaActual, Consumo, Excedente, Basico, ExcedenteV, Total, Acumulado, Pago, Saldo, Cancelada, Usurario, Estacion, Nombre, Codigo, Lote, Manzana, Planilla, Alcantarillado) VALUES (:idMedida, :Anio, :Mes, :idCliente, :LecturaAnterior, :LecturaActual, :Consumo, :Excedente, :Basico, :ExcedenteV, :Total, :Acumulado, :Pago, :Saldo, :Cancelada, :Usurario, :Estacion, :Nombre, :Codigo, :Lote, :Manzana, :Planilla, :Alcantarillado)`,
+        {
+          replacements: {
+            idMedida,
+            Anio,
+            Mes,
+            idCliente,
+            LecturaAnterior,
+            LecturaActual,
+            Consumo,
+            Excedente,
+            Basico,
+            ExcedenteV,
+            Total,
+            Acumulado,
+            Pago,
+            Saldo,
+            Cancelada,
+            Usurario,
+            Estacion,
+            Nombre,
+            Codigo,
+            Lote,
+            Manzana,
+            Planilla,
+            Alcantarillado,
+          },
+          type: sequelize.QueryTypes.INSERT,
+        }
+      );
+    }
+
+
+    await dbConnection.query(
+      `DELETE FROM JA_Medida WHERE idCliente = :idCliente AND codigo = :codigo AND manzana = :manzana AND lote = :lote`,
+      {
+        replacements: 
+        {
+          idCliente: measure.idCliente,
+          codigo: measure.Codigo,
+          manzana: measure.Manzana,
+          lote: measure.Lote,
+        },
+        type: sequelize.QueryTypes.DELETE,
+      }
+    );
+
+    consoleHelper.success("Medida eliminada correctamente");
+    return {
+      message: "Medida eliminada correctamente",
+    };
+  } catch (error) {
+    consoleHelper.error(error.msg);
+    throw new Error(error.msg);
+  }
+}
+
+// select Codigo, COUNT(*) from JA_Medida where Anio = 2023 and Mes = 10 group by Codigo having COUNT(*) > 1
+const getCountriesWithMoreThanOneMeasure = async (Anio, Mes) => {
+  try {
+    const measure = await dbConnection.query(
+      `select Codigo, COUNT(*) from JA_Medida where Anio = :Anio and Mes = :Mes group by Codigo having COUNT(*) > 1`,
+      {
+        replacements: {
+          Anio,
+          Mes,
+        },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    consoleHelper.success("Medida obtenida correctamente");
+    return measure;
+  } catch (error) {
+    consoleHelper.error(error.msg);
+    throw new Error(error.msg);
+  }
+}
+
 module.exports = {
   execCorte,
   getMeasurements,
@@ -904,5 +1030,7 @@ module.exports = {
   updateDatosAlcantarilladoConSaldoPositivo,
   getCustomerInformation,
   getMeasurementsByCode,
-  getMeasureTotalFineByManzanaLote
+  getMeasureTotalFineByManzanaLote,
+  deleteMeasureAndCodigoAndManzanaAndLote,
+  getCountriesWithMoreThanOneMeasure
 };

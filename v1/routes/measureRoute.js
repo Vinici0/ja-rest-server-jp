@@ -17,7 +17,8 @@ const {
   calculateAllAndUpdateMedidasAcumulado,
   updateDatosAlcantarilladoConSaldoPositivo,
   getCustomerInformation,
-  getMeasureTotalFineByManzanaLote
+  getMeasureTotalFineByManzanaLote,
+  deleteMeasureAndCodigoAndManzanaAndLote
 } = require("../../controllers/measureController");
 
 const router = Router();
@@ -35,10 +36,10 @@ router.post("/createMeusereAndUpdateCustomer", createMeusereAndUpdateCustomer);
 router.get("/:id", getMeasureById);
 router.put("/updateMeauseAndCustomer", updateMeauseAndCustomer);
 router.post("/generaAndCalculo", generaAndCalculo);
+router.post("/deleteMeasureAndCodigoAndManzanaAndLote", deleteMeasureAndCodigoAndManzanaAndLote);
 
 router.put("/calculateAllAndUpdateMedidasAcumulado", calculateAllAndUpdateMedidasAcumulado);
 router.put("/updateDatosAlcantarilladoConSaldoPositivo", updateDatosAlcantarilladoConSaldoPositivo);
 router.get("/getCustomerInformation/:id", getCustomerInformation);
-
 
 module.exports = router;
