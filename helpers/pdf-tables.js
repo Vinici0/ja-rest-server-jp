@@ -689,7 +689,7 @@ const generateTableMeasureCourtOne = async (doc, data, dataAll) => {
     const totalPagar = await getMeasurementsByCode(data.codigo);
     const year = new Date().getFullYear();
     //Cnter text
-    const { day, month, monthsCorte } = dataAll;
+    const { day, meses, monthsCorte } = dataAll;
     // arreglo de fechas de corte por numero de meses llave valor
     const fechasCorteMes = [
       "enero",
@@ -741,7 +741,7 @@ const generateTableMeasureCourtOne = async (doc, data, dataAll) => {
     const textPresenteFontSize = commonFontSize;
 
     const textEnUso = `En uso de las atribuciones establecidas en el Art. 18 del Reglamento Interno, se notifica que a partir del día ${dayWeekTextValue} ${day} de ${
-      fechasCorteMes[month]
+      fechasCorteMes[meses-1]
     }, ${year} se iniciará el programa de corte y suspensión del servicio de agua por encontrarse en mora con ${data.meses} meses, del medidor ${
       data.codigo
     }, de la manzana ${data.Manzana.trim()}, Solar nro ${data.Lote.trim()}, El monto adeudado es $${totalPagar[0].Acumulado.toFixed(
@@ -842,7 +842,7 @@ const generateTableMeasureCourtTwo = async (doc, data, dataAll) => {
     const totalPagar = await getMeasurementsByCode(data.codigo);
     const year = new Date().getFullYear();
     //Cnter text
-    const { day, month, monthsCorte } = dataAll;
+    const { day, meses, monthsCorte } = dataAll;
     // arreglo de fechas de corte por numero de meses llave valor
     const fechasCorteMes = [
       "enero",
@@ -894,7 +894,7 @@ const generateTableMeasureCourtTwo = async (doc, data, dataAll) => {
     const textPresenteFontSize = commonFontSize;
 
     const textEnUso = `En uso de las atribuciones establecidas en el Art. 18 del Reglamento Interno, se notifica que a partir del día ${dayWeekTextValue}, ${day} ${
-      fechasCorteMes[month]
+      fechasCorteMes[meses-1]
     }, ${year} se iniciará el programa de corte y suspensión del servicio de agua por encontrarse en mora con ${data.meses} meses, del medidor ${
       data.codigo
     }, de la manzana ${data.Manzana.trim()}, Solar nro ${data.Lote.trim()}, El monto adeudado es $${totalPagar[0].Acumulado.toFixed(
